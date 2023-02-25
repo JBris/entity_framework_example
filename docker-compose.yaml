@@ -2,6 +2,21 @@ version: "3.7"
 
 services:
 
+  # app:
+  #   image: mcr.microsoft.com/dotnet/sdk:${DOTNET_TAG}
+  #   hostname: app
+  #   stop_grace_period: 60s
+  #   restart: always
+  #   environment:
+  #     DB: $DB
+  #   build: 
+  #     context: ./EntityFrameworkExample
+  #     args:
+  #       DB: $DB
+  #       DOTNET_TAG: $DOTNET_TAG
+  #   ports:
+  #     - ${DOTNET_PORT}:80 
+
   postgres:
     image: "postgres:${POSTGRES_TAG}"
     container_name: "${PROJECT_NAME}-postgres"
