@@ -6,7 +6,7 @@ services:
     image: "postgres:${POSTGRES_TAG}"
     container_name: "${PROJECT_NAME}-postgres"
     hostname: postgres
-    restart: always
+    restart: unless-stopped
     stop_grace_period: 60s
     environment:
       POSTGRES_PASSWORD: $DB_PASSWORD
@@ -20,10 +20,20 @@ services:
   adminer:
     image: "adminer:${ADMINER_TAG}"
     container_name: "${PROJECT_NAME}-adminer"
-    stop_grace_period: 60s
-    restart: always
+    stop_grace_period: 5s
+    restart: unless-stopped
     ports:
       - ${ADMINER_PORT}:8080
+
+  sqlitebrowser:
+    image: "lscr.io/linuxserver/sqlitebrowser:${SQLITE_BROWSER_TAG}"
+    container_name: "${PROJECT_NAME}-sqlitebrowser"
+    security_opt:
+      - seccomp:unconfined  
+    ports:
+      - ${SQLITE_BROWSER_PORT}:3000
+    stop_grace_period: 5s
+    restart: unless-stopped
 
 networks:
   default:
