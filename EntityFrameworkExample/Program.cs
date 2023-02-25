@@ -9,9 +9,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<EntityContext>(
-    options => options.UseNpgsql(builder.Configuration.GetConnectionString("EntityDb"))
-);
+String connectionString = Environment.GetEnvironmentVariable("DB");
+
+if(connectionString == "sqlite") { 
+    Console.WriteLine($"Using database connection {connectionString}");
+    builder.Services.AddDbContext<EntityContext>(
+        options => options.UseSqlite(builder.Configuration.GetConnectionString(connectionString))
+    );
+} else {
+    connectionString = "postgres";
+    Console.WriteLine($"Using database connection {connectionString}");
+
+    builder.Services.AddDbContext<EntityContext>(
+        options => options.UseNpgsql(builder.Configuration.GetConnectionString(connectionString))
+    );
+}
+
 
 var app = builder.Build();
 

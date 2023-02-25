@@ -24,16 +24,18 @@ services:
     restart: unless-stopped
     ports:
       - ${ADMINER_PORT}:8080
-
+      
   sqlitebrowser:
     image: "lscr.io/linuxserver/sqlitebrowser:${SQLITE_BROWSER_TAG}"
     container_name: "${PROJECT_NAME}-sqlitebrowser"
     security_opt:
       - seccomp:unconfined  
-    ports:
-      - ${SQLITE_BROWSER_PORT}:3000
     stop_grace_period: 5s
     restart: unless-stopped
+    ports:
+      - ${SQLITE_BROWSER_PORT}:3000
+    volumes:
+      - ./EntityFrameworkExample:/app
 
 networks:
   default:
